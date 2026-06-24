@@ -1,0 +1,10 @@
+# Ignore raw and processed datasets
+Deepfake dataset/
+dataset_clean/
+data_raw/
+dataset/
+
+# Ignore python cache files
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
