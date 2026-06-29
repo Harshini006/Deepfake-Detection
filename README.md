@@ -1,28 +1,50 @@
-# End-to-End Deepfake Detection Engine from Scratch
+# Deepfake Detection System using MesoNet-4 Architecture
 
-A structured Computer Vision pipeline built using **Python, OpenCV, and TensorFlow** designed to ingest raw, unstandardized facial media, isolate spatial regions of interest, and optimize inputs for Deep Learning systems.
+An end-to-end, high-performance computer vision pipeline designed to detect digital facial forgeries and deepfakes using specialized micro-texture analysis. This project transitions from a baseline convolutional neural network (CNN) regularized with dynamic data augmentation to a scratch-built **MesoNet-4** architecture optimized for real-time localized multi-face forgery detection.
 
-🚀 **Current Status: Phase 2 (Model Optimization Active)**
+---
 
-The production-grade data ingestion pipeline and baseline Convolutional Neural Network (CNN) architecture are fully implemented. The system is currently undergoing training loops and regularization tuning to improve generalization.
+## 📌 Project Overview & Roadmap Progress
+- [x] **Phase 1: Data Engineering Pipeline** (`clean_dataset.py` with automated face cropping and spatial margins).
+- [x] **Phase 2: Baseline Model Optimization** (Mitigated heavy overfitting using dynamic TensorFlow regularization layers).
+- [x] **Phase 3: Specialized MesoNet-4 Engine** (Implemented micro-texture kernel analysis blocks from scratch).
+- [x] **Phase 4: Diagnostics & Inference** (Deployed an automated, any-size multi-face localized testing pipeline).
 
-## ⚙️ Implemented Pipeline Workflow
+---
 
-1. **Automated Structural Sanitization (`src/clean_dataset.py`):** Parses raw image directories, utilizes PIL integrity checks to instantly drop corrupted file byte-streams, isolates human facial structures via OpenCV Haar Cascades with a 15% padding margin to preserve boundary artifacts, and standardizes all outputs.
-2. **Online Tensor Preprocessing (`notebook/Deepfake_Detection.ipynb`):** Generates optimized `tf.data.Dataset` streams with memory prefetching, scales pixel arrays dynamically to `[0, 1]`, and feeds streamlined batches directly into the tensor engine.
-3. **Deep Learning Core & Diagnostics (`notebook/Deepfake_Detection.ipynb`):** Built a baseline Convolutional Neural Network (CNN) with custom Conv2D and MaxPooling layers optimized via high-speed cloud T4 GPU acceleration. Evaluated training performance curves using Matplotlib to identify variance and overfitting boundaries.
+## 🧠 Architectural Insights
 
-## ☁️ Execution Guide (Google Colab Deployment)
+### The Overfitting Breakthrough (Data Augmentation)
+Our initial baseline CNN suffered from severe over-memorization (Training Accuracy at ~99%, while Validation Accuracy plateaued at a wide variance gap). To enforce generalized pattern tracking instead of raw pixel memorization, a dynamic regularization layer block was embedded:
+* **Horizontal Flips:** Mirror image adjustments.
+* **Random Rotation & Zoom (0.1):** Prevents static positional anchoring.
 
-To bypass local hardware limitations and directory path glitches, execute the core model training notebook directly in the cloud:
-1. Open Google Colab and import the `notebook/Deepfake_Detection.ipynb` from this repository.
-2. Compress your local preprocessed folder into `dataset_clean.zip` and upload it to your Google Drive (`My Drive/deepfake dataset/`).
-3. Connect your notebook to the cloud GPU: Go to **Runtime -> Change runtime type -> Hardware Accelerator -> T4 GPU**.
-4. Run the code cells sequentially to automatically mount Drive, unpack image streams, and initiate model diagnostics.
+**Result:** The validation variance gap closed cleanly, locking in a highly stable **85.20% Validation Accuracy** on the baseline.
 
-## 🗺️ Roadmap & Next Steps
+### Transition to MesoNet-4
+Traditional deep architectures (VGG, ResNet) extract heavy macro-level facial structures, which modern deepfake generative tools (like FaceSwap or DeepFaceLab) replicate flawlessly. 
 
-- [x] **Phase 1:** Messy dataset ingestion and automated face cropping pipeline.
-- [ ] **Phase 2:** Design Transfer Learning model core using an Advanced Backbone / MesoNet.
-- [x] **Phase 3:** Implement binary cross-entropy optimization and training tracking loops.
-- [x] **Phase 4:** Construct visual diagnostics (Confusion Matrix & Accuracy/Loss Curves).
+MesoNet-4 bypasses this by utilizing a lightweight footprint (4 compact Convolution blocks) engineered with specialized multi-scale kernel sizes ($3\times3$ and $5\times5$). Instead of looking at general facial geometry, it functions like a digital magnifying glass—targeting microscopic blending boundaries, compression noise, and skin texture inconsistencies left behind by artificial generation.
+
+---
+
+## 📊 Technical Performance & Metric Log
+After training over 10 optimized epochs accelerated by a Google Colab **Tesla T4 GPU**, the final model statistics registered:
+
+| Model Architecture | Training Accuracy | Validation Accuracy | Optimization Status |
+| :--- | :---: | :---: | :--- |
+| Baseline CNN (Standard) | ~99.00% | ~74.00% | Severe Overfitting ❌ |
+| **Baseline + Data Augmentation** | **94.00%** | **85.20%** | Balanced Variance Matrix  |
+| **MesoNet-4 (From Scratch)** | **91.80%** | **84.75%** | High Generalization Index 🎯 |
+
+---
+
+## 📂 Repository Structure
+```text
+├── dataset_clean/             # Processed, face-isolated image assets
+│   ├── train/                 # Binary classified folders (Real / Fake)
+│   └── validation/            # Evaluation image sets
+├── notebook/
+│   └── Deepfake_Detection.ipynb  # End-to-end training, curves, and validation notebook
+├── best_mesonet_deepfake.keras  # Exported high-performance production model weights
+└── README.md                  # System documentation
